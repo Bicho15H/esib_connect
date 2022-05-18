@@ -1,0 +1,86 @@
+{% extends "ClubNetwork/layout.html" %}
+{% load static %}
+{% block extrahead %} 
+<link href="{% static 'ClubNetwork/profile_club.css' %}" rel="stylesheet">
+{% endblock %}
+{% block script %}
+<script src="{% static 'ClubNetwork/script.js' %}"></script>
+{% endblock %}
+{% block body %}
+<div class="bg-white shadow rounded overflow-hidden">
+    <div class="px-4 pt-0 pb-4 cover">
+        <div class="media align-items-end profile-head">
+            <div class="profile mr-3"><img src="{% if target.profile_pic %}{{target.profile_pic.url}}{% else %}https://img.icons8.com/ios/480/000000/groups.png{% endif%}" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                {% if user.id == target.id %}
+                <a href="{% url 'edit' %}" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+                {% endif %}
+            </div>
+            <div class="media-body mb-5 text-white">
+                <h4 class="mt-0 mb-0">{{target.username}}{% if target.club.is_verified == 3 %} <i class ="fa fa-check-circle mr-1"></i>{% endif %}</h4>
+                <p class="small mb-4"> <i class="fa fa-map-marker mr-2"></i>{{target.club.campus}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg-light p-4 d-flex justify-content-end text-center">
+        <ul class="list-inline mb-0">
+            <li class="list-inline-item">
+                <h5 class="font-weight-bold mb-0 d-block">{{target.posts.all|length}}</h5><small class="text-muted"> <i class="fa fa-image mr-1"></i>Posts</small>
+            </li>
+            <li class="list-inline-item">
+                <h5 class="font-weight-bold mb-0 d-block">{{target.followers.all|length}}</h5><small class="text-muted"> <i class="fa fa-user mr-1"></i>Followers</small>
+            </li>
+            <li class="list-inline-item">
+                <h5 class="font-weight-bold mb-0 d-block">{{target.following.all|length}}</h5><small class="text-muted"> <i class="fa fa-user mr-1"></i>Following</small>
+            </li>
+        </ul>
+    </div>
+    {% if user.id != target.id %}
+    <div class="bg-light p-3 d-flex flex-row-reverse justify-content-end text-center">
+        <form action="{% url 'profile'  target.id %}" method="post">
+            {% csrf_token %}
+            <button {% if is_following %} hidden {% endif %} type="submit" class="btn btn-primary margin" name = "action" value = "follow">Follow</button>
+            <button {% if not is_following %} hidden {% endif %} type="submit" class="btn btn-danger margin" name = "action" value = "unfollow">Unfollow</button>
+        </form>
+    </div>
+    {% endif %}
+    <div class="px-4 py-3">
+        <h5 class="mb-0">About</h5>
+        <div class="p-4 rounded shadow-sm bg-light">
+            <p class="font-italic mb-0 comment-descrpition">{{target.club.description}}</p>
+        </div>
+    </div>
+    <div class="py-4 px-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h5 class="mb-0">Recent posts</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+        </div>
+        {% for post in posts reversed %}
+        <div class="d-flex justify-content-center row padding">
+            <div class="col-md-6">
+                <div class="d-flex flex-column comment-section shadow">
+                    <div class="bg-white p-2">
+                        <div class="d-flex flex-row user-info"><div><img class="rounded-circle" src="{% if post.user.profile_pic %}{{post.user.profile_pic.url}}{% else %}https://img.icons8.com/ios/480/000000/groups.png{% endif%}" width="40" height="40"></div>
+                            <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name fs-14"><a href ="{% url 'profile' post.user.id %}" class = "highlight">{{post.user}}</a></span><span class="date text-black-50">Shared publicly - {{post.date}}</span></div>
+                        </div>
+                        <div class="mt-2 container">
+                            <p class="comment-text">{{post.content}}</p>
+                            {% if post.image %}
+                            <img class="image" src = "{{post.image.url}}">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="bg-white">
+                        <div class="d-flex flex-row fs-12 container">
+                            <div data-postid = "{{ post.id }}" class="like p-2 cursor1"><i class="fa fa-heart"></i><span class="ml-1">{{post.liked_by.all |length}}</span></div>
+                            <div class="p-2 cursor2"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div>
+                            <div class="p-2 cursor3"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <h6 style="text-align: center;">No posts yet.</h6>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

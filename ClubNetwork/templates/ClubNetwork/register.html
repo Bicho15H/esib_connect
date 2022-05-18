@@ -1,0 +1,28 @@
+{% extends "ClubNetwork/layout.html" %}
+{% load static %}
+{% block extrahead %} 
+<link href="{% static 'ClubNetwork/register.css' %}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+
+
+<div class="row">
+    <div class="container col-4 ">
+        <h3>Select below the type of account you want to create</h3>
+        <a class="btn btn-primary student" href="{% url 'register_student' %}" role="button">Student</a>
+        <a class="btn btn-success club" href="{% url 'register_club' %}" role="button">Club</a>
+    </div>
+
+    <div class="col-8 border-left">
+        <div class="row justify-content-md-center" style="padding: 20px;">
+            <a class= "col login_logo" > <img src = "{% static 'ClubNetwork/logo3.png' %}" width="250" height="250"></a>
+            <div class= "col login_title"> 
+                    Welcome to ESIB_connect!
+            </div>
+        </div>
+        <div class="login_text" >
+            This is a page made from ESIB students to ESIB students. You can easily stay up to date with all the USJ club activities thanks to ESIB_connect!
+        </div>
+    </div>
+</div>
+{% endblock %}

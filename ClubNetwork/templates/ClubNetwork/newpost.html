@@ -1,0 +1,22 @@
+{% extends "ClubNetwork/layout.html" %}
+
+{% block body %}
+{% if user.club.is_verified == 3 %}
+<div class="newpostform">
+    <h1>New Post</h1>
+    {% if message %}
+        <span id="error">{{message}}</span>
+    {% endif %}
+    <form action="{% url 'newpost' %}" autocomplete="off" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <textarea name="content" class="form-control" aria-label="With textarea" placeholder="Your Post Here"></textarea>
+        <input name = "image" type="file" accept="image/*">
+        <input type="submit" class="btn btn-primary">
+    </form>
+</div>
+{% else %}
+<h2>Posting is reserved for verified clubs.</h2>
+<h5>You can request for a verified club <a href="{% url 'edit' %}">here</a>.</h5>
+{% endif %}
+
+{% endblock %}

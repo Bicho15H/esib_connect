@@ -1,0 +1,31 @@
+.comment-text {
+    font-size: 20px;
+    white-space: pre-wrap;
+}
+.fs-14{
+    font-size: 18px;
+}
+.highlight:hover{
+    text-decoration: none;
+    font-weight: bold;
+}
+.name {
+    color: #007bff
+}
+.padding{
+    padding-bottom: 1em;
+}
+.accept,.reject{
+    color: black;
+    background: none;
+    border: none;
+    outline: none;
+}
+.accept:hover{
+    text-decoration: none;
+    color: rgb(0, 255, 0);
+}
+.reject:hover{
+    text-decoration: none;
+    color: red;
+}

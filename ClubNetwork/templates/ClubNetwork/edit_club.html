@@ -1,0 +1,86 @@
+{% extends  "ClubNetwork/layout.html" %}
+{% load static %}
+{% block extrahead %} 
+<link href="{% static 'ClubNetwork/edit_club.css' %}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-md-3 border-right">
+        <div class="d-flex flex-column align-items-center text-center p-3 py-3">
+            <form action="{% url 'edit' %}" method = "post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input name = "image" type="file" accept="image/*">
+                <input type="submit" name="action" value ="Change profile picture">
+            </form>
+            <img class="rounded-circle mt-5" width="150px" height="150px" src="{% if user.profile_pic %}{{ user.profile_pic.url }}{% else %}https://img.icons8.com/ios/480/000000/groups.png{% endif %}">
+            <span class="font-weight-bold">{{user.username}}</span>
+            <span class="text-black-50">{{user.email}}</span>
+        </div>
+        <div class = "align-items-center text-center">
+            {% if message2 %}
+            <div id = "error">{{ message2 }}</div>
+            {% endif %}
+            <form action="{% url 'edit' %}"  method="post">
+                {% csrf_token %}
+                {% if request.user.club.is_verified == 1 %}
+                <input class="btn btn-outline-success" type="submit" name="action" value ="Verify Club">
+                {% elif request.user.club.is_verified == 2 %}
+                <button class="btn btn-outline-secondary" type="button" disabled>Requested</button>
+                {% elif request.user.club.is_verified == 3 %}
+                <h4>Verified <i class ="fa fa-check-circle mr-1"></i></h4>
+                {% endif %}
+            </form>
+            <span>Verify your club to become an official club. You'll be able to create posts and be displayed in the home page.</span>
+            <h5>Requirements:</h5>
+            <span>At least 10 followers to send a request</span>
+        </div>
+    </div>
+    <div class="col-md-5 border-right">
+        <form action="{% url 'edit' %}"  method="post" autocomplete="off">
+            {% csrf_token %}
+        <div class="p-3 py-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-right">Profile Settings</h4>
+            </div>
+            {% if message %}
+            <div id = "error">{{ message }}</div>
+            {% endif %}
+            <div class="row mt-3">
+                <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="Mobile Number" name = "phone" value="{{user.club.phone}}"></div>
+                <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="Email " name="email"  value="{{user.email}}"></div>
+                <div class="col-md-12"><label class="labels">Campus</label><input type="text" class="form-control" placeholder="Campus" name = "campus" value="{{user.club.campus}}"></div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12"><label class="labels">Description</label><textarea style="height: 6em;" class="form-control" name ="description" placeholder="Desciption of your club">{{user.club.description}}</textarea></div>
+            </div>
+            <div class="mt-5 text-center"><a class="btn btn-danger" href ="{% url 'profile' user.id %}" style ="margin-right: 2em;" role="button">Go Back</a><input class="btn btn-primary profile-button" type="submit" name="action" value = "Save Profile"></div>
+        </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <div class="p-3 py-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-right">Following:</h4>
+            </div>
+            {% for following in user.following.all reversed %}
+            <div class="d-flex flex-column comment-section shadow margin-user">
+                <div class="bg-white p-2">
+                    <div class="d-flex flex-row user-info"><div><img class="rounded-circle" src="{% if following.profile_pic %}{{ following.profile_pic.url }}{% else %}{% if following.is_club %}https://img.icons8.com/ios/480/000000/groups.png {% elif following.is_student %} https://img.icons8.com/ios-filled/500/000000/user-male-circle.png {% endif %}{%endif%}" width="40" height="40"></div>
+                        <div class="d-flex mr-auto p-2 flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name fs-14"><a href ="{% url 'profile' following.id %}" class = "highlight">{{following.username}}</a></span></div>
+                        <div class="d-flex p-2 flex-column justify-content-start ml-2">
+                            <form action="{% url 'edit' %}"  method="post">
+                                {% csrf_token %}
+                                <input class="btn btn-danger" type="submit" name="action" value ="Unfollow">
+                                <input type ="hidden" name = "unfollow_target" value = "{{following.id}}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <h5>Not following anyone currently.</h5>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

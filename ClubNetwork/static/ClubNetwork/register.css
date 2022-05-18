@@ -1,0 +1,9 @@
+h1,h4,.container{
+    text-align:center;
+}
+.container{
+    padding: 3rem;
+}
+.student,.club{
+    margin: 3rem;
+}

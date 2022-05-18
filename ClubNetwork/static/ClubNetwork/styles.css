@@ -1,0 +1,45 @@
+.body{
+    margin: 2em;
+}
+#error{
+    color: red;
+}
+.newpostform{
+    padding: 1em;
+}
+.newpostform textarea{
+    margin-bottom: 1em;
+    width: 70%;
+    height: 10em;
+    resize: none;
+}
+img{
+    object-fit: cover;
+}
+#logo{
+    object-fit:contain;
+}
+.login_title{
+    color: rgb(34, 31, 127) ;
+    font-size: 60px;
+    font-style: italic;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 5px 5px 10px rgb(108, 106, 161);
+
+}
+
+.login_text{
+    padding: 50px;
+    padding-left:150px;
+    padding-right:150px;
+    text-align: center;
+    text-shadow: 5px 5px 10px rgb(108, 106, 161);
+
+}
+
+.login_logo{
+    text-align: center;
+    object-fit:contain;
+
+}

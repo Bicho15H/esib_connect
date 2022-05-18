@@ -1,0 +1,47 @@
+{% extends "ClubNetwork/layout.html" %}
+{% load static %}
+{% block extrahead %} 
+<link href="{% static 'ClubNetwork/profile_student.css' %}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+<div class="bg-white shadow rounded overflow-hidden">
+    <div class="px-4 pt-0 pb-4 cover">
+        <div class="media align-items-end profile-head">
+            <div class="profile mr-3"><img src="{% if target.profile_pic %}{{target.profile_pic.url}}{% else %}https://img.icons8.com/ios-filled/500/000000/user-male-circle.png{% endif%}" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                {% if user.id == target.id %}
+                <a href="{% url 'edit' %}" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+                {% endif %}
+            </div>
+            <div class="media-body mb-5 text-white">
+                <h4 class="mt-0 mb-0">{{target.username}}</h4>
+                <p class="small mb-4"> <i class="fa fa-map-marker mr-2"></i>{{target.student.campus}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg-light p-4 d-flex justify-content-end text-center">
+        <ul class="list-inline mb-0">
+            <li class="list-inline-item">
+                <h5 class="font-weight-bold mb-0 d-block">{{target.followers.all|length}}</h5><small class="text-muted"> <i class="fa fa-user mr-1"></i>Followers</small>
+            </li>
+            <li class="list-inline-item">
+                <h5 class="font-weight-bold mb-0 d-block">{{target.following.all|length}}</h5><small class="text-muted"> <i class="fa fa-user mr-1"></i>Following</small>
+            </li>
+        </ul>
+    </div>
+    {% if user.id != target.id %}
+    <div class="bg-light p-3 d-flex flex-row-reverse justify-content-end text-center">
+        <form action="{% url 'profile'  target.id %}" method="post">
+            {% csrf_token %}
+            <button {% if is_following %} hidden {% endif %} type="submit" class="btn btn-primary margin" name = "action" value = "follow">Follow</button>
+            <button {% if not is_following %} hidden {% endif %} type="submit" class="btn btn-danger margin" name = "action" value = "unfollow">Unfollow</button>
+        </form>
+    </div>
+    {% endif %}
+    <div class="px-4 py-3">
+        <h5 class="mb-0">About</h5>
+        <div class="p-4 rounded shadow-sm bg-light">
+            <p class="font-italic mb-0 comment-descrpition">{{target.student.description}}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

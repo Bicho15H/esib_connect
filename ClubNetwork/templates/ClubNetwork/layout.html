@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Esib Connect{% endblock %}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'ClubNetwork/styles.css' %}" rel="stylesheet">
+        {% block extrahead %}{% endblock %}
+        {% block script %}
+        {% endblock %}
+    </head>
+    <body>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'index' %}"><img id="logo" src = "{% static 'ClubNetwork/logo3.png' %}" width="50" height="50"></a>
+          
+            <div>
+              <ul class="navbar-nav mr-auto">
+                    {% if not user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'find' %}">Find Clubs</a>
+                    </li>
+                    {% if user.is_club %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'newpost' %}">New Post</a>
+                    </li>
+                    {% endif %}
+                    {% if not user.is_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' user.id %}">Profile</a>
+                    </li>
+                    {% endif %}
+                    {% if user.is_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'request' %}">Club requests</a>
+                    </li>
+                    {% endif %}
+              </ul>
+            </div>
+            <form class="form-inline" action="{% url 'search' %}" method="GET" autocomplete="off">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" name = "s" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <div class="navbar-nav ml-auto" >
+                <label>Signed in as:</label><span style="padding-left:5px;"> {{user.username}}</span>
+            </div>
+            <div class="navbar-nav ml-auto" >
+                <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+            </div>
+                    {% endif %}
+        </nav>
+        <div class="body">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

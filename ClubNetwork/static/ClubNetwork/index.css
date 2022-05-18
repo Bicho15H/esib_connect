@@ -1,0 +1,48 @@
+.date {
+    font-size: 11px
+}
+
+.comment-text {
+    font-size: 20px;
+    white-space: pre-wrap;
+}
+
+.fs-12 {
+    font-size: 16px
+}
+
+.fs-14{
+    font-size: 18px;
+}
+
+.highlight:hover{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.name {
+    color: #007bff
+}
+
+.cursor1 .cursor2 .cursor3 {
+    cursor: pointer;
+}
+.cursor1:hover {
+    color: red;
+    cursor: pointer;
+}
+.cursor2:hover {
+    color: grey;
+    cursor: pointer;
+}
+
+.textarea {
+    resize: none
+}
+
+.padding{
+    padding-bottom: 1em;
+}
+.image{
+    width: 100%;
+}

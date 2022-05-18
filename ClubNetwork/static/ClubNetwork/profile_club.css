@@ -1,0 +1,77 @@
+.profile-head {
+    transform: translateY(5rem)
+}
+
+.cover {
+    background-image: url(https://images.unsplash.com/photo-1530305408560-82d13781b33a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80);
+    background-size: cover;
+    background-repeat: no-repeat
+}
+
+body {
+    background: #00ff55;
+    background: linear-gradient(to right, #79e97f, #00ff55);
+    min-height: 100vh;
+    overflow-x: hidden
+}
+
+.date {
+    font-size: 11px
+}
+
+.comment-text {
+    font-size: 20px;
+    white-space: pre-wrap;
+}
+
+.comment-descrpition{
+    white-space: pre-wrap;
+}
+
+.fs-12 {
+    font-size: 16px
+}
+
+.fs-14{
+    font-size: 18px;
+}
+.highlight:hover{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.shadow-none {
+    box-shadow:none;
+}
+
+.name {
+    color: #007bff
+}
+
+.cursor1:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.cursor2:hover {
+    color: grey;
+    cursor: pointer;
+}
+
+.cursor1 .cursor2 .cursor3 {
+    cursor: pointer
+}
+
+.textarea {
+    resize: none
+}
+
+.padding{
+    padding-bottom: 1em;
+}
+.margin{
+    margin-left: 2em;
+}
+.image{
+    width: 100%;
+}

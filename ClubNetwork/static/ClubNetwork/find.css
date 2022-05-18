@@ -1,0 +1,21 @@
+.comment-text {
+    font-size: 20px;
+    white-space: pre-wrap
+}
+.fs-14{
+    font-size: 18px;
+}
+.highlight:hover{
+    text-decoration: none;
+    font-weight: bold;
+}
+.name {
+    color: #007bff
+}
+.padding{
+    padding-bottom: 1em;
+}
+.follow-button{
+    margin: 0em 0em 1em 1em;
+    border-radius: 2em;
+}

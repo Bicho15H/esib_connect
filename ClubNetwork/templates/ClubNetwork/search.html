@@ -1,0 +1,23 @@
+{% extends  "ClubNetwork/layout.html" %}
+{% load static %}
+{% block extrahead %} 
+<link href="{% static 'ClubNetwork/search.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+{% for user in users reversed %}
+    <div class="d-flex justify-content-center row padding">
+        <div class="col-md-4">
+            <div class="d-flex flex-column comment-section shadow">
+                <div class="bg-white p-2">
+                    <div class="d-flex flex-row user-info"><div><img class="rounded-circle" src="{% if user.profile_pic %}{{ user.profile_pic.url }}{% else %}{% if user.is_club %}https://img.icons8.com/ios/480/000000/groups.png {% elif user.is_student %} https://img.icons8.com/ios-filled/500/000000/user-male-circle.png {% endif %}{%endif%}" width="40" height="40"></div>
+                        <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name fs-14"><a href ="{% url 'profile' user.id %}" class = "highlight">{{user.username}}</a></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% empty %}
+    <h3 style="text-align: center;">No results.</h3>
+{% endfor %}
+{% endblock %}

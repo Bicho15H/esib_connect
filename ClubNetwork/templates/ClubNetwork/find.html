@@ -1,0 +1,39 @@
+{% extends  "ClubNetwork/layout.html" %}
+{% load static %}
+{% block extrahead %} 
+<link href="{% static 'ClubNetwork/find.css' %}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+{% for club in clubs reversed %}
+<div class="d-flex justify-content-center row padding">
+    <div class="col-md-10">
+        <div class="d-flex flex-column comment-section shadow">
+            <div class="bg-white p-2">
+                <div class="d-flex flex-row user-info"><div><img class="rounded-circle" src="{% if club.user.profile_pic %}{{club.user.profile_pic.url}}{% else %}https://img.icons8.com/ios/480/000000/groups.png{% endif%}" width="40" height = "40"></div>
+                    <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name fs-14"><a href ="{% url 'profile' club.user.id %}" class = "highlight">{{club.user.username}}</a></span></div>
+                </div>
+                <div class="mt-2">
+                    <p class="comment-text">{{club.description}}</p>
+                </div>
+            </div>
+            <div class="bg-white">
+                <div class="d-flex flex-row">
+                    <form action="{% url 'find' %}"  method="post">
+                        {% csrf_token %}
+                        {% if user.id != club.user.id %}
+                        {% if club.user not in user.following.all %}
+                        <button class="btn btn-primary follow-button" type = "submit" name ="action" value = "follow"><div class="p-2"><i class="fa fa-users"></i><span class="ml-1">Follow</span></div></button>
+                        <input type ="hidden" name = "club_target" value = "{{club.user.id}}">
+                        {% else %}
+                        <button class="btn btn-outline-secondary follow-button" disabled><div class="p-2"><i class="fa fa-users"></i><span class="ml-1">Following</span></div></button>
+                        {% endif %}
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
