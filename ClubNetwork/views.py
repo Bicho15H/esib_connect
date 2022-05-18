@@ -1,5 +1,3 @@
-from email import message
-from email.mime import image
 from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.urls import reverse
 from django.shortcuts import redirect, render
