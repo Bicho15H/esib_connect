@@ -47,3 +47,10 @@ class Post(models.Model):
         return f"{self.content} -- by {self.user} "
     def __repr__(self):
         return f"{self.content} -- by {self.user} "
+
+class Comment(models.Model):
+    id = models.AutoField(primary_key=True)
+    parent_post = models.ForeignKey(Post,on_delete=models.CASCADE, related_name="comments")
+    content = models.TextField()
+    date = models.CharField(max_length=64)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="comments")

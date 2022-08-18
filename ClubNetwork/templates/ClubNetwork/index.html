@@ -7,6 +7,19 @@
 <script src="{% static 'ClubNetwork/script.js' %}"></script>
 {% endblock %}
 {% block body %}
+<div class="d-flex justify-content-end row padding">
+    <div class="col-md-5">
+        <form method="GET" action="{% url 'index' %}">
+            <select name="filter">
+                <option value="allpost" {% if filter == 'allpost' %} selected {% endif %}>All Post</option>
+                <option value="following" {% if filter == 'following' %} selected {% endif %}>Following</option>
+                <option value="notfollowing" {% if filter == 'notfollowing' %} selected {% endif %}>Not Following</option>
+                <option value="liked" {% if filter == 'liked' %} selected {% endif %}>Liked</option>
+            </select>
+            <input type="submit" class="btn btn-primary" value="Filter">
+        </form>
+    </div>
+</div>
 {% for post in posts reversed %}
 <div class="d-flex justify-content-center row padding">
     <div class="col-md-6">
@@ -24,8 +37,8 @@
             </div>
             <div class="bg-white">
                 <div class="d-flex flex-row fs-12 container">
-                    <div data-postid = "{{ post.id }}" class="like p-2 cursor1"><i class="fa fa-heart"></i><span class="ml-1">{{post.liked_by.all |length}}</span></div>
-                    <div class="p-2 cursor2"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div>
+                    <div data-postid = "{{ post.id }}" class="like p-2 cursor1" {% if user in post.liked_by.all %} style="color:  red" {% else %} style="color: black" {% endif %}><i class="fa fa-heart"></i><span class="ml-1">{{post.liked_by.all |length}}</span></div>
+                    <div class="p-2" ><a class="cursor2" href="{% url 'post' post.id %}"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></a></div>
                     <div class="p-2 cursor3"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
                 </div>
             </div>

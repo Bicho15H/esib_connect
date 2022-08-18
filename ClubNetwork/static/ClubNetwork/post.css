@@ -34,19 +34,11 @@
 .cursor2:hover {
     color: grey;
     cursor: pointer;
-    text-decoration: none;
 }
 
-.cursor2 {
-    color: black;
-    text-decoration: none;
-}
-.cursor3 {
-    color: gray;
-}
-
-.textarea {
-    resize: none
+textarea {
+    resize: none;
+    width: 80%;
 }
 
 .padding{
@@ -54,4 +46,8 @@
 }
 .image{
     width: 100%;
+}
+
+.no-comment{
+    text-align: center;
 }

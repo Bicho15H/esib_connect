@@ -7,12 +7,13 @@
 <div class="row">
     <div class="col-md-3 border-right">
         <div class="d-flex flex-column align-items-center text-center p-3 py-3">
-            <form action="{% url 'edit' %}" method = "post" enctype="multipart/form-data">
+            <form style="margin-top:30px" action="{% url 'edit' %}" method = "post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input name = "image" type="file" accept="image/*">
-                <input type="submit" name="action" value ="Change profile picture">
+                <input name = "image" type="file" accept="image/*" id="img" style="display:none;">
+                <label class="btn btn-light" for="img">Upload image</label>
+                <input class="btn btn-primary" type="submit" name="action" value ="Change profile picture">
             </form>
-            <img class="rounded-circle mt-5" width="150px" height="150px" src="{% if user.profile_pic %}{{ user.profile_pic.url }}{% else %}https://img.icons8.com/ios/480/000000/groups.png{% endif %}">
+            <img class="rounded-circle" width="150px" height="150px" style="margin-top:20px" src="{% if user.profile_pic %}{{ user.profile_pic.url }}{% else %}https://img.icons8.com/ios/480/000000/groups.png{% endif %}">
             <span class="font-weight-bold">{{user.username}}</span>
             <span class="text-black-50">{{user.email}}</span>
         </div>

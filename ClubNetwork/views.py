@@ -6,7 +6,7 @@ from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import User,Student,Club,Post
+from .models import User,Student,Club,Post,Comment
 
 from datetime import datetime
 
@@ -126,9 +126,25 @@ def register_club(request):
 
 @login_required()
 def index(request):
-    posts = Post.objects.all()
+    filter = 'allpost'
+    if 'filter' in request.GET:
+        if request.GET['filter'] == 'following':
+            posts = Post.objects.filter(user__in = request.user.following.all())
+            filter = 'following'
+        elif request.GET['filter'] == 'notfollowing':
+            posts = Post.objects.exclude(user__in = request.user.following.all())
+            filter = 'notfollowing'
+        elif request.GET['filter'] == 'liked':
+            posts = request.user.likes.all()
+            filter = 'liked'
+        else:
+            posts = Post.objects.all()
+            filter = 'allpost'
+    else:
+        posts = Post.objects.all()
     return render(request ,"ClubNetwork/index.html",{
-        "posts":posts
+        "posts":posts,
+        "filter":filter
     })
 
 @login_required
@@ -365,3 +381,24 @@ def posts(request,id):
             "liked":request.user in post.liked_by.all()
         }
         return JsonResponse(data,safe=False)
+
+@login_required
+def post(request,id):
+    try:
+        post = Post.objects.get(pk=id)
+    except:
+        return HttpResponse(status = 404)
+    if request.method == "POST":
+        content = request.POST["content"].strip()
+        date = datetime.now().strftime("%d %B %Y")
+        if len(content) == 0:
+            return HttpResponseRedirect(reverse("post",kwargs = {"id" : post.id}))
+
+        Comment(parent_post = post, content = content, date = date, user = request.user).save()
+
+        return HttpResponseRedirect(reverse("post",kwargs = {"id" : post.id}))
+    else:
+        return render(request,"ClubNetwork/post.html",{
+            "post": post,
+            "comments":post.comments.all()
+        })

@@ -14,5 +14,6 @@ urlpatterns = [
     path("find", views.find_clubs, name = "find"),
     path("request",views.club_request, name = "request"),
     path("search",views.search,name= "search"),
-    path("posts/<int:id>", views.posts, name = "posts")
+    path("posts/<int:id>", views.posts, name = "posts"),
+    path("post/<int:id>",views.post, name="post")
 ]
